@@ -2,6 +2,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <stdio.h>
+#include "drive_five.h"
+#include "sequence_player.hpp"
 
 
 void print_file( char* name )
@@ -31,8 +33,8 @@ void save_file( char* name )
 	{
 		while (text.good())
 		{
-			getline(text,line);
-			std::cout << line << std::endl;
+			//getline(text,line);
+			//std::cout << line << std::endl;
 		}
 		text.close();
 	}

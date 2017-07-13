@@ -1,6 +1,6 @@
 #include <sys/time.h>
 #include <stdlib.h>
-#include <linux/serial.h>
+//#include <linux/serial.h>
 #include <sys/ioctl.h>
 #include <stdint.h>
 #include <math.h>
@@ -267,7 +267,7 @@ void DriveFive::clear()
 		Just make 1 function which sends whatever telegram you want!
 		Don't need separate member functions for each command!
 */
-bool DriveFive::send_command(char* mFiveCommand) 
+bool DriveFive::send_command( const char* mFiveCommand) 
 {
 	// Clear Response buffer (start over)
 	restart_response();

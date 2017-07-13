@@ -7,7 +7,7 @@
 #include <poll.h>
 #include <vector>
 #include <string>
-
+#include <pthread.h>
 
 #define TX_BUFFER_SIZE 100
 #define RX_BUFFER_SIZE 100
@@ -56,7 +56,7 @@ public:
 	
 	int 	available		( );
 	char	serialGetchar	( );
-	bool 	send_command	( char* mFiveCommand  );
+	bool 	send_command	( const char* mFiveCommand  );
 	bool 	read_response	(  );
 	void 	clear			( );
 	void 	restart_response( );

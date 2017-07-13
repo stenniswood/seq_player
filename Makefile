@@ -8,7 +8,7 @@ OBJ     =   sequence_player.o main.o drive_five.o
 
 CPPOBJ    = 
 
-LDFLAGS = -lpthread -lrt
+LDFLAGS = -lpthread
 
 %.o: %.cpp $(DEPS)
 	$(CC) $(addprefix -I,$(INC)) -c -o $@ $< $(CFLAGS)
