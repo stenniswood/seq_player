@@ -39,16 +39,17 @@ void play_back( char* mFilename, char* mTimeStep )
 
 void execute_one_line( std::string mSequenceLine )
 {
-	// SEPARATE DEVICE NAME FROM COMMAND :
+	// SEND COMMAND TO FIVE:
 	char    device[512];
 	size_t  ptr = mSequenceLine.find(' ', 0);	// First space is end of the device name.
-	string  command = mSequenceLine.substr( ptr, string::npos );	
+	string  command = mSequenceLine.substr( ptr, string::npos );
+	
 	mSequenceLine[ptr] = 0;
 	strcpy(device, mSequenceLine.c_str() );
 
-	// SEND COMMAND TO FIVE:
 	int selected_board = find_board   ( device  );
 	fives[selected_board].send_command( command.c_str() );
+
 
 	// PAUSE FOR USER REQUESTED DELAY :
 	if (strstr(command.c_str(), "delay")!=NULL)	// if the command is a "delay 500 ms"
