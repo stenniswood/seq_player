@@ -10,7 +10,8 @@
 
 
 #define PID_TIMEOUT_MS 10000
-double time_step = 0.1;
+double time_step = 1.0;	// in seconds
+int line_number = 0;
 
 void play_back( char* mFilename, char* mTimeStep )
 {
@@ -24,8 +25,9 @@ void play_back( char* mFilename, char* mTimeStep )
 		{
 			getline(text,line);
 			// PAUSE FOR TIME STEP:	
-			sleep( time_step );		// Pause between every line of execution.  ie Playback rate.			
+			usleep( time_step*1000000 );		// Pause between every line of execution.  ie Playback rate.			
 			execute_one_line( line );			
+			line_number++;
 			//std::cout << line << std::endl;
 		}
 		text.close();
@@ -44,14 +46,14 @@ void execute_one_line( std::string mSequenceLine )
 	size_t  ptr = mSequenceLine.find(' ', 0);	// First space is end of the device name.
 	if (ptr==string::npos)
 		return;	 
-	string  command = mSequenceLine.substr( ptr, string::npos );	
+	string  command = mSequenceLine.substr( ptr+1, string::npos );	
 	mSequenceLine[ptr] = 0;
 	strcpy(device, mSequenceLine.c_str() );
-	printf("Device=%s; Cmd=%s\n", device, command.c_str() );
 	
 	char cmd_key[] = "wait for pid";
 	int selected_board = find_board( device  );
-
+	printf("%d - %d; Cmd=%s\n", line_number, selected_board, command.c_str() );
+	
 	// PAUSE FOR USER REQUESTED DELAY :
 	if (strstr(command.c_str(), "delay")!=NULL)	// if the command is a "delay 500 ms"
 	{
@@ -59,8 +61,7 @@ void execute_one_line( std::string mSequenceLine )
 		size_t    ms_index = command.find("ms", 0);
 		string delay_str   = command.substr( delay_index, (ms_index-delay_index) );
 		int delay_ms = atoi(delay_str.c_str());
-		printf("delaying...%d ms\n", delay_ms);
-		//for (int i=0; i<delay_ms; i++)
+		printf("\tdelaying...%d ms\n", delay_ms);
 		sleep( delay_ms / 1000 );					// Delay!
 	}
 	// WAIT FOR PID axis : 
@@ -79,5 +80,7 @@ void execute_one_line( std::string mSequenceLine )
 	} else {
 		// SEND COMMAND TO FIVE:
 		fives[selected_board].send_command( command.c_str() );
+		// Wait for response:
+		while (fives[selected_board].get_has_responded()==false) {};
 	}
 }

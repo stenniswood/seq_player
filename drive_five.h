@@ -9,8 +9,8 @@
 #include <string>
 #include <pthread.h>
 
-#define TX_BUFFER_SIZE 100
-#define RX_BUFFER_SIZE 100
+#define TX_BUFFER_SIZE 200
+#define RX_BUFFER_SIZE 200
 
 
 /******************************************************************************
@@ -63,29 +63,32 @@ public:
 	bool 	contains_NAK    ( );
 
 	bool 	is_pid_done		( char Letter );
-//	void* 	serial_interface( void* );
+	bool 	get_has_responded	( )		{ return m_has_responded; };
+
 	
 private:
-	char	 m_response[2048];
-	char	 m_port_name[PORT_NAME_SIZE];
-	int  		fd;
+	char	 	m_port_name[PORT_NAME_SIZE];
+	int  	 	fd;
+	bool	 	connected;
 
-	bool		pid_done[5];
-	pthread_t 	read_thread_id;				
-				
-
+	// RxBuffer & Response : 	
+	pthread_t 	read_thread_id;		
+	char	 	m_response[2048];
+	int		 	m_response_index;
+	bool		m_has_responded;
 	int			rx_bytes;		 			// rx data bytes in buffer
  	char		rx_buffer[RX_BUFFER_SIZE];
- 	char		tx_buffer[TX_BUFFER_SIZE];
-	int 		tx_bytes;
+	bool 		inside_echo;
 
+	// COMMAND VARS :
+ 	char		m_command[TX_BUFFER_SIZE];	// hold the last transmitted cmd for echo cancelation.
+	int 		m_cmd_length;
 
-	bool	 	connected;
+	bool		pid_done[5];
+
 	struct 		pollfd 	serial_poll;	
-	
 	bool 	 	write_n	(uint8_t mbyte,...);
-	bool 	 	read_n		(uint8_t mbyte,uint8_t address,uint8_t cmd,...);
-	
+	bool 	 	read_n	(uint8_t mbyte,uint8_t address,uint8_t cmd,...);	
 };
 
 
