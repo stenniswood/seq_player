@@ -78,7 +78,7 @@ void scan_available_boards()
 	DriveFive_device_names.clear();		
 	//printf("Searching for Five boards...\n\n");
 	populate_file_in_directory("/dev/", DriveFive_device_paths, DriveFive_device_names );
-	printf("Found %ld Drive Five boards.", DriveFive_device_names.size() );		
+	printf("Found %ld Drive Five boards.\n", DriveFive_device_names.size() );		
 }
 
 void open_all_available()

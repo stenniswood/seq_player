@@ -2,6 +2,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
 #include "drive_five.h"
 #include "sequence_player.hpp"
 
@@ -57,10 +59,13 @@ int main(int argc, char ** argv)
 	if (argc==1)
 		print_file( argv[1] );
 	else if (argc==2) {
+	
 		scan_available_boards();
 		open_all_available();
-		play_back( argv[1], argv[2] );
+		char timeStep[32];
+		strcpy( timeStep, "0.001" );
+		play_back( argv[1], timeStep );
 	}
-	else help();
-	
+	else help();	
 }
+

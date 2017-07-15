@@ -1,0 +1,9 @@
+/dev/ttyUSB0 pwm v0.2 w0.2
+/dev/ttyUSB0 delay 1000
+/dev/ttyUSB0 stop
+/dev/ttyUSB0 pwm v-0.2 w-0.2
+/dev/ttyUSB0 delay 1000
+/dev/ttyUSB0 stop
+/dev/ttyUSB0 read position
+/dev/ttyUSB0 read robot info
+

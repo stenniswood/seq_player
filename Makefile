@@ -1,12 +1,11 @@
 CC=g++
 OPTIONS	= -std=gnu99 -lm -fno-rtti 
-INC	= 
+INC	    = 
 SELF_INC= ./
 CFLAGS 	= -lm -g
 DEPS   	= 
 OBJ     =   sequence_player.o main.o drive_five.o
-
-CPPOBJ    = 
+CPPOBJ  = 
 
 LDFLAGS = -lpthread
 
