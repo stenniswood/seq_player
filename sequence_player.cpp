@@ -10,7 +10,7 @@
 
 
 #define PID_TIMEOUT_MS 10000
-double time_step = 0.01;
+double time_step = 0.1;
 
 void play_back( char* mFilename, char* mTimeStep )
 {
@@ -24,7 +24,7 @@ void play_back( char* mFilename, char* mTimeStep )
 		{
 			getline(text,line);
 			// PAUSE FOR TIME STEP:	
-			usleep( time_step*1000 );		// Pause between every line of execution.  ie Playback rate.			
+			sleep( time_step );		// Pause between every line of execution.  ie Playback rate.			
 			execute_one_line( line );			
 			//std::cout << line << std::endl;
 		}
@@ -55,12 +55,13 @@ void execute_one_line( std::string mSequenceLine )
 	// PAUSE FOR USER REQUESTED DELAY :
 	if (strstr(command.c_str(), "delay")!=NULL)	// if the command is a "delay 500 ms"
 	{
-		printf("delaying...\n");
-		size_t delay_index = command.find(' ', 0);
+		size_t delay_index = command.find(' ', 1);
 		size_t    ms_index = command.find("ms", 0);
 		string delay_str   = command.substr( delay_index, (ms_index-delay_index) );
 		int delay_ms = atoi(delay_str.c_str());
-		usleep( delay_ms * 1000 );					// Delay!
+		printf("delaying...%d ms\n", delay_ms);
+		//for (int i=0; i<delay_ms; i++)
+		sleep( delay_ms / 1000 );					// Delay!
 	}
 	// WAIT FOR PID axis : 
 	else if (strstr(command.c_str(),cmd_key)!=NULL)	// if the command is a "delay 500 ms"
