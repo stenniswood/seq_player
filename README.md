@@ -1,5 +1,5 @@
 http://www.beyond-kinetics.com
-	Join us:
+	<br>Join us:
 http://www.beyond-kinetics.com
 
 # seq_player
